@@ -1,0 +1,23 @@
+#mainWindow{
+    -fx-background-image: url("nebula.jpg");
+    -fx-background-size: 1200 800;
+    -fx-background-position: center center;
+}
+#ship_graph{
+    -fx-fill: Green;
+    -fx-stroke-width: 3;
+    -fx-stroke: rgb(1, 48, 14);
+    -fx-fill-width: 50;
+    -fx-fill-height: 50;
+
+}
+
+#alien_graph{
+    -fx-fill: Red;
+    -fx-stroke-width: 3;
+    -fx-stroke: rgb(1, 48, 14);
+}
+
+#ImInvisibleKeyboardListener{
+    visibility: false;
+}
