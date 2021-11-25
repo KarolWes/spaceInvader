@@ -27,6 +27,7 @@ public class Controller {
     private boolean right = false;
     private boolean shoot = false;
     private int points = 0;
+    private int bonusDuration = 50;
 
     private Player ship;
     private List<Alien> allAliens;
@@ -42,14 +43,14 @@ public class Controller {
             if (frames == 5) {
                 autoMove();
                 generateAliens();
-                for(int i = 0; i < 4; i++){
+                for(int i = 0; i < 3; i++){
                     int j = bonusTimeout.get(i);
                     if(j > 0){
-                        j--;
+                        bonusTimeout.set(i,j-1);
                     }
                     else if (j == 0){
-                         timeout(bonusTimeout.indexOf(j));
-                         j=-1;
+                        timeout(bonusTimeout.indexOf(j));
+                        bonusTimeout.set(i,j-1);
                     }
                 }
                 frames = 0;
@@ -84,7 +85,6 @@ public class Controller {
         allAliens = new ArrayList<>();
         allBonuses = new ArrayList<>();
         bonusTimeout = new ArrayList<>();
-        bonusTimeout.add(-1);
         bonusTimeout.add(-1);
         bonusTimeout.add(-1);
         bonusTimeout.add(-1);
@@ -265,12 +265,12 @@ public class Controller {
                 }
                 a.die();
                 allAliens.remove(a);
-                if (allAliens.size() == 0) {
-                    System.out.println("WIN");
-                    endGameText.setText("Win");
-                    endGame();
-                    return;
-                }
+//                if (allAliens.size() == 0) {
+//                    System.out.println("WIN");
+//                    endGameText.setText("Win");
+//                    endGame();
+//                    return;
+//                }
                 return;
             }
             a.getSkinLoc().setX(a.getX());
@@ -331,12 +331,12 @@ public class Controller {
                     }
                     toRemove.add(b);
                     b.getSkin().setVisible(false);
-                    if (allAliens.size() == 0) {
-                        System.out.println("WIN");
-                        endGameText.setText("Win");
-                        endGame();
-                        return;
-                    }
+//                    if (allAliens.size() == 0) {
+//                        System.out.println("WIN");
+//                        endGameText.setText("Win");
+//                        endGame();
+//                        return;
+//                    }
                 }
             }
         }
@@ -391,21 +391,21 @@ public class Controller {
         System.out.println("Bonus value: " + bonus);
         switch (bonus) {
             case 0:
-                bonusTimeout.add(0, bonusTimeout.get(0) + 21);
+                bonusTimeout.add(0, bonusTimeout.get(0) + bonusDuration+1);
                 ship.setShielded(true);
                 break;
             case 1:
-                bonusTimeout.add(1, bonusTimeout.get(1) + 21);
+                bonusTimeout.add(1, bonusTimeout.get(1) + bonusDuration+1);
                 ship.setDoubleshot(true);
                 break;
             case 2:
-                bonusTimeout.add(2, bonusTimeout.get(2) + 21);
+                bonusTimeout.add(2, bonusTimeout.get(2) + bonusDuration+1);
                 for(Alien a: allAliens){
                     a.multipleSpeed(0.25);
                 }
                 break;
             case 3:
-                
+                ship.regenerate();
                 break;
             case 4:
                 points += 25;

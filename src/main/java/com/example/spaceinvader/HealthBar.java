@@ -36,13 +36,17 @@ public class HealthBar {
     }
 
     public void reduceHealth(int dmg){
+        double r;
         if(this.actHealth > dmg)
         {
             this.actHealth-=dmg;
             if(actHealth - dmg > maxHealth){
+                dmg = actHealth - maxHealth;
                 actHealth = maxHealth;
+                this.skin.setWidth(width*actHealth/maxHealth);
+
             }
-            double r = dmg*1.0/maxHealth*width;
+            r = dmg*1.0/maxHealth*width;
             this.skin.setWidth(width*actHealth/maxHealth);
             move((int)(-r/2), 0);
 

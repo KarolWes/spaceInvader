@@ -85,11 +85,8 @@ public class Player extends Spacecraft {
         shield.setCenterX(this.x+this.getxSize()/2);
         shield.setCenterY(this.y + this.getySize()/2);
     }
-    public void regenerate(int lives){
-        this.live += lives;
-        if(live > hp.getMaxHealth()){
-            live = hp.getMaxHealth();
-        }
-
+    public void regenerate(){
+        this.live = hp.getMaxHealth();
+        hp.reduceHealth((-1)*hp.getMaxHealth());
     }
 }

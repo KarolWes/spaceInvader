@@ -25,10 +25,10 @@ public class Bonus extends Movable implements Hitting{
         this.speed = speed;
         value = (int)(Math.random()*5);
         fillings = new ArrayList<>();
-        fillings.add(Color.AZURE); // shield
+        fillings.add(Color.BLUE); // shield
         fillings.add(Color.SILVER); // double shot
         fillings.add(Color.BROWN); // slowdown
-        fillings.add(Color.DARKGREEN); // add hearts
+        fillings.add(Color.RED); // add hearts
         fillings.add(Color.ORANGE); // coin
         skin = new Circle();
         skin.setRadius(12.0);
