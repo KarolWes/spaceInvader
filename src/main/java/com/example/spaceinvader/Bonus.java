@@ -29,7 +29,7 @@ public class Bonus extends Movable implements Hitting{
         fillings.add(Color.SILVER); // double shot
         fillings.add(Color.BROWN); // slowdown
         fillings.add(Color.RED); // add hearts
-        fillings.add(Color.ORANGE); // coin
+        fillings.add(Color.YELLOW); // coin
         skin = new Circle();
         skin.setRadius(12.0);
         skin.setCenterX(x+skin.getRadius());

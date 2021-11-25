@@ -40,12 +40,6 @@ public class HealthBar {
         if(this.actHealth > dmg)
         {
             this.actHealth-=dmg;
-            if(actHealth - dmg > maxHealth){
-                dmg = actHealth - maxHealth;
-                actHealth = maxHealth;
-                this.skin.setWidth(width*actHealth/maxHealth);
-
-            }
             r = dmg*1.0/maxHealth*width;
             this.skin.setWidth(width*actHealth/maxHealth);
             move((int)(-r/2), 0);
@@ -79,5 +73,11 @@ public class HealthBar {
 
     public int getMaxHealth() {
         return maxHealth;
+    }
+    public void resetMax(){
+        double r = (maxHealth-actHealth)*1.0/maxHealth*width;
+        this.actHealth = maxHealth;
+        this.skin.setWidth(width);
+        move((int)(-r/2),0);
     }
 }

@@ -250,13 +250,13 @@ public class Controller {
 
         for (Alien a : allAliens) {
             a.move(instance % a.getOrderCount());
-            if(a.getY() >= scene_y){ // alien reaches bottom of the window
-                System.out.println("GAME OVER");
-                a.getHp().getSkin().setVisible(false);
-                endGameText.setText("Game over");
-                endGame();
-                return;
-            }
+//            if(a.getY() >= scene_y){ // alien reaches bottom of the window
+//                System.out.println("GAME OVER");
+//                a.getHp().getSkin().setVisible(false);
+//                endGameText.setText("Game over");
+//                endGame();
+//                return;
+//            }
             if(a.hit(ship.getSkinLoc(), a.getSkinLoc())){ // alien hits the player
                 if(ship.hurt(30)){
                     endGameText.setText("Game over");
@@ -322,7 +322,7 @@ public class Controller {
                     points+=1;
                     if (sHit.hurt(b.getDamage())) { // alien dies if hit
                         double bonus = Math.random()*1000;
-                        if(bonus <= 300){
+                        if(bonus <= 3000){
                             allBonuses.add(new Bonus(sHit.getX(), sHit.getY(), 25));
                         }
                         sHit.die();

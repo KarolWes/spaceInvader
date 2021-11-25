@@ -87,6 +87,16 @@ public class Player extends Spacecraft {
     }
     public void regenerate(){
         this.live = hp.getMaxHealth();
-        hp.reduceHealth((-1)*hp.getMaxHealth());
+        hp.resetMax();
+    }
+
+    @Override
+    public boolean hurt(int dmg) {
+        if(!shielded){
+            return super.hurt(dmg);
+        }
+        else{
+            return false;
+        }
     }
 }

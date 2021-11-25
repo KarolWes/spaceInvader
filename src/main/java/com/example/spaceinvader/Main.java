@@ -26,22 +26,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-
-//        Spacecraft ship = new Spacecraft(10, scene_x/2, scene_y-50);
-//        System.out.println(ship.getLive());
-//        ship.move(90, 5);
-//        ship.move(270, 10);
-//        ship.hurt(3);
-//        System.out.println(ship.getLive());
-//        ship.hurt(10);
-//        System.out.println(ship.getLive());
-//
-//
-//        Bullet bullet = new Bullet(2, 15, 0, 0);
-//        bullet.move();
-//        bullet.move();
-//        bullet.move();
-
         launch();
     }
 }
