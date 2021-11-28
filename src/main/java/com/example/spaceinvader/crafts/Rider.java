@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Rider extends Alien{
     public Rider(int x, int y) {
-        super(1, 20, 5, x, y, new Image(new File("src/main/resources/com/example/spaceinvader/invader72.png").toURI().toString()));
+        super(1, 20, 5, x, y, new Image(new File("src/main/resources/com/example/spaceinvader/raider72.png").toURI().toString()));
         generateMoves();
     }
 
