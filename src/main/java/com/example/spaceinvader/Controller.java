@@ -32,6 +32,7 @@ public class Controller {
     private Player ship;
     private List<Alien> allAliens;
     private List<Bonus> allBonuses;
+    private List<Explosion> allExplosions;
     private List<Integer> bonusTimeout;
 
     public AnimationTimer timer = new AnimationTimer() {
@@ -84,6 +85,7 @@ public class Controller {
         mainWindow.getChildren().add(pointsText);
         allAliens = new ArrayList<>();
         allBonuses = new ArrayList<>();
+        allExplosions = new ArrayList<>();
         bonusTimeout = new ArrayList<>();
         bonusTimeout.add(-1);
         bonusTimeout.add(-1);
