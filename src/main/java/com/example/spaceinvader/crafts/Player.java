@@ -47,11 +47,11 @@ public class Player extends Spacecraft {
     }
 
     @Override
-    public Bullet attack() {
+    public void attack() {
         instance ^= 1;
         smallCooldown = sCdLimit;
         //return super.attack(600, this.getY()-20);
-        return super.attack(this.getX()+instance*this.getxSize(), this.getY()-20);
+        super.attack(this.getX()+instance*this.getxSize(), this.getY()-20);
     }
 
     public double getSpeed() {
@@ -87,7 +87,7 @@ public class Player extends Spacecraft {
     }
     public void regenerate(){
         this.live = hp.getMaxHealth();
-        hp.resetMax();
+        hp.resetMax(this.x+this.getxSize()/2);
     }
 
     @Override

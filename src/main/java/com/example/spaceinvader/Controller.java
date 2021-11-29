@@ -126,7 +126,7 @@ public class Controller {
                     allAliens.add(new Rider((i+1)*spacing, 100));
                 }
                 else{
-                    //third kind of alien
+                    allAliens.add(new Destroyer((i+1)*spacing, 100));
                 }
             }
         }
@@ -209,10 +209,14 @@ public class Controller {
     };
 
     @FXML
-    public void generateBullet(Bullet bullet) {
-        Rectangle r = bullet.getSkin();
-        mainWindow.getChildren().add(r);
-        bullet.setGenerated(true);
+    public void generateBullet(List<Bullet> bullets) {
+        for(Bullet bullet: bullets){
+            if(!bullet.isGenerated()){
+                Rectangle r = bullet.getSkin();
+                mainWindow.getChildren().add(r);
+                bullet.setGenerated(true);
+            }
+        }
     }
 
     public void playerMove() {
@@ -227,10 +231,11 @@ public class Controller {
             }
         }
         if (shoot) {
-            generateBullet(ship.attack());
+            ship.attack();
             if(ship.isDoubleshot()){
-                generateBullet(ship.attack());
+                ship.attack();
             }
+            generateBullet(ship.getFired());
             shoot = false;
         }
     }
@@ -242,6 +247,10 @@ public class Controller {
             bonus.move();
             if (bonus.hit(ship.getSkinLoc(),bonus.getSkin())){
                 addBonus(bonus.getValue());
+                bonus.getSkin().setVisible(false);
+                bonusToRemove.add(bonus);
+            }
+            if(bonus.getY() > scene_y){
                 bonus.getSkin().setVisible(false);
                 bonusToRemove.add(bonus);
             }
@@ -276,10 +285,8 @@ public class Controller {
             a.getSkinLoc().setX(a.getX());
             a.getSkinLoc().setY(a.getY());
             List<Bullet> toRemove = new ArrayList<>();
+            generateBullet(a.getFired());
             for (Bullet b : a.getFired()) { // alien shoots
-                if(!b.isGenerated()){
-                    generateBullet(b);
-                }
                 b.move();
                 if (b.getY() > scene_y) {
                     toRemove.add(b);

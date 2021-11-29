@@ -13,6 +13,7 @@ public class Bullet extends Movable implements Hitting{
     private final double speed;
     private int x;
     private int y;
+    private double angle;
     private final int xSize;
     private final int ySize;
     private boolean generated;
@@ -37,6 +38,12 @@ public class Bullet extends Movable implements Hitting{
         return speed;
     }
 
+    public Bullet(int damage, double speed, int x, int y, double angle, int shooter) {
+        this(damage, speed, x,y, shooter);
+        this.angle = angle;
+        skin.setRotate(-angle);
+    }
+
     public Bullet(int damage, double speed, int x, int y, int shooter) {
         this.generated = false;
         this.damage = damage;
@@ -44,6 +51,7 @@ public class Bullet extends Movable implements Hitting{
         this.x = x;
         this.y = y;
         this.shooter = shooter;
+        this.angle = 0;
         xSize = 3;
         ySize = 20;
         skin = new Rectangle();
@@ -51,6 +59,7 @@ public class Bullet extends Movable implements Hitting{
         skin.setX(x);
         skin.setWidth(xSize);
         skin.setHeight(ySize);
+        skin.setRotate(angle);
         if (shooter== 1) {
             skin.setFill(Color.GREEN);
         } else {
@@ -83,7 +92,11 @@ public class Bullet extends Movable implements Hitting{
 
     public void move()
     {
-        List<Integer> pos = move(180*shooter, speed, x, y);
+        move(180*shooter);
+    }
+
+    public void move(double dir){
+        List<Integer> pos = move((int)(angle), speed, x, y);
         x = pos.get(0);
         y = pos.get(1);
         skin.setX(x);

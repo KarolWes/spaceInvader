@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Alien extends Spacecraft implements Hitting {
     private double speed;
-    private double mainSpeed;
+    private final double mainSpeed;
     private int freq;
     private int orderCount;
     private boolean generated;
@@ -35,9 +35,7 @@ public class Alien extends Spacecraft implements Hitting {
         this.generated = generated;
     }
 
-    protected void generateMoves(){
-        return;
-    }
+    protected void generateMoves(){}
 
     protected List<Integer> getMoves() {
         return moves;
@@ -48,13 +46,15 @@ public class Alien extends Spacecraft implements Hitting {
     }
 
     public void move(int i) {
-        int nump = (int) (Math.random()*100);
-        if (nump < freq)
-        {
-            attack();
+        int val = moves.get(i);
+        if(val != -1){
+            int nump = (int) (Math.random()*100);
+            if (nump < freq)
+            {
+                attack();
+            }
+            super.move(val, this.speed);
         }
-        super.move(moves.get(i), this.speed);
-
     }
     public int getOrderCount()
     {
@@ -62,8 +62,8 @@ public class Alien extends Spacecraft implements Hitting {
     }
 
     @Override
-    public Bullet attack() {
-        return super.attack(this.getX()+this.getxSize()/2, this.getY()+this.getySize());
+    public void attack() {
+        super.attack(this.getX()+this.getxSize()/2, this.getY()+this.getySize());
     }
 
     @Override

@@ -74,10 +74,10 @@ public class HealthBar {
     public int getMaxHealth() {
         return maxHealth;
     }
-    public void resetMax(){
-        double r = (maxHealth-actHealth)*1.0/maxHealth*width;
+    public void resetMax(int x){
+
         this.actHealth = maxHealth;
         this.skin.setWidth(width);
-        move((int)(-r/2),0);
+        this.x = (int) (x-0.5*this.skin.getWidth());
     }
 }

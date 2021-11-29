@@ -22,6 +22,10 @@ public class Bonus extends Movable implements Hitting{
     private boolean generated = false;
     private List<String>fillings;
 
+    public int getY() {
+        return y;
+    }
+
     public Bonus(int x, int y, int speed) {
         this.x = x;
         this.y = y;

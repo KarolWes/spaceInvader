@@ -78,13 +78,12 @@ public class Spacecraft extends Movable {
         return fired;
     }
 
-    public Bullet attack(){
-        return attack(this.x, this.y);
+    public void attack(){
+        attack(this.x, this.y);
     }
-    public Bullet attack(int x, int y){
+    public void attack(int x, int y){
         Bullet b = new Bullet(5, 15, x, y, flag);
         fired.add(b);
-        return b;
     }
 
     public void move(int dir, double dist) {
