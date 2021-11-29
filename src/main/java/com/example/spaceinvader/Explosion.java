@@ -1,6 +1,7 @@
 package com.example.spaceinvader;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Explosion implements Hitting{
@@ -12,6 +13,9 @@ public class Explosion implements Hitting{
     private int dmg;
     private boolean expired = false;
 
+    public int getDmg() {
+        return dmg;
+    }
 
     public Explosion(int x, int y) {
         this.x = x;
@@ -19,10 +23,12 @@ public class Explosion implements Hitting{
         this.dmg = 20;
         this.radius = 20;
         this.skin = new Circle();
+        skin.setFill(Color.ORANGE);
         skin.setRadius(radius);
         skin.setCenterX(this.x);
         skin.setCenterY(this.y);
         skin.setOpacity(0.5);
+        skin.setVisible(true);
     }
 
     @Override

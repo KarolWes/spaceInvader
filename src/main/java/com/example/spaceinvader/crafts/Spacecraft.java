@@ -1,6 +1,7 @@
 package com.example.spaceinvader.crafts;
 
 import com.example.spaceinvader.Bullet;
+import com.example.spaceinvader.Explosion;
 import com.example.spaceinvader.HealthBar;
 import com.example.spaceinvader.Movable;
 import javafx.fxml.FXML;
@@ -82,7 +83,7 @@ public class Spacecraft extends Movable {
         attack(this.x, this.y);
     }
     public void attack(int x, int y){
-        Bullet b = new Bullet(5, 15, x, y, flag);
+        Bullet b = new Bullet(5, 15, x, y, 180* flag, flag);
         fired.add(b);
     }
 
@@ -102,9 +103,12 @@ public class Spacecraft extends Movable {
         getFired().clear();
         this.skinLoc.setVisible(false);
         this.hp.getSkin().setVisible(false);
+        x = -1;
+        y = -1;
     }
 
     public HealthBar getHp() {
         return hp;
     }
+    public Explosion explode(){return null;}
 }

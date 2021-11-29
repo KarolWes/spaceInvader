@@ -1,6 +1,7 @@
 package com.example.spaceinvader.crafts;
 
 import com.example.spaceinvader.Bullet;
+import com.example.spaceinvader.Explosion;
 import com.example.spaceinvader.Hitting;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -79,4 +80,5 @@ public class Alien extends Spacecraft implements Hitting {
     public void multipleSpeed(double v){
         this.speed=v*mainSpeed;
     }
+
 }

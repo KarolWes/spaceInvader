@@ -97,7 +97,7 @@ public class Controller {
     }
 
     public void firstLine(){
-        allAliens.add(new Invader(100, 100));
+        allAliens.add(new Bomb(100, 100));
         allAliens.add(new Invader(200, 100));
         allAliens.add(new Invader(300, 100));
         allAliens.add(new Invader(400, 100));
@@ -275,6 +275,11 @@ public class Controller {
                     return;
                 }
                 a.die();
+                Explosion ex = a.explode();
+                if(ex != null){
+                    allExplosions.add(ex);
+                    mainWindow.getChildren().add(ex.getSkin());
+                }
                 allAliens.remove(a);
 //                if (allAliens.size() == 0) {
 //                    System.out.println("WIN");
@@ -283,6 +288,14 @@ public class Controller {
 //                    return;
 //                }
                 return;
+            }
+            for(Explosion ex: allExplosions){
+                if(a.hit(ex.getSkin(), a.getSkinLoc())){
+                    if(a.hurt(ex.getDmg())){
+                        a.die();
+                        allAliens.remove(a);
+                    }
+                }
             }
             a.getSkinLoc().setX(a.getX());
             a.getSkinLoc().setY(a.getY());
@@ -304,6 +317,12 @@ public class Controller {
                         }
                         b.getSkin().setVisible(false);
                         toRemove.add(b);
+                    }
+                    for(Explosion ex: allExplosions){
+                        if (b.hit(ex.getSkin(), b.getSkin())){
+                            b.getSkin().setVisible(false);
+                            toRemove.add(b);
+                        }
                     }
                     List<Bullet> playerToRemove = new ArrayList<>();
                     for(Bullet playerB: ship.getFired()){ // if two bullets meet
@@ -330,11 +349,18 @@ public class Controller {
                 if (sHit != null) {
                     points+=1;
                     if (sHit.hurt(b.getDamage())) { // alien dies if hit
+
                         double bonus = Math.random()*1000;
                         if(bonus <= 3000){
                             allBonuses.add(new Bonus(sHit.getX(), sHit.getY(), 25));
                         }
+
                         sHit.die();
+                        Explosion ex = sHit.explode();
+                        if(ex != null){
+                            allExplosions.add(ex);
+                            mainWindow.getChildren().add(ex.getSkin());
+                        }
                         allAliens.remove(sHit);
                         points+=10;
                     }
@@ -347,9 +373,34 @@ public class Controller {
 //                        return;
 //                    }
                 }
+                for(Explosion ex: allExplosions){
+                    if (b.hit(ex.getSkin(), b.getSkin())){
+                        b.getSkin().setVisible(false);
+                        toRemove.add(b);
+                    }
+                }
+            }
+        }
+        for(Explosion ex: allExplosions){
+            if(ex.hit(ship.getSkinLoc(), ex.getSkin())){
+                if(ship.hurt(ex.getDmg())){
+                    System.out.println("GAME OVER");
+                    endGameText.setText("Game over");
+                    ship.die();
+                    endGame();
+                    return;
+                }
             }
         }
         ship.getFired().removeAll(toRemove);
+        List <Explosion> exToRemove = new ArrayList<>();
+        for(Explosion ex: allExplosions){
+            ex.resize();
+            if(ex.isExpired()){
+                exToRemove.add(ex);
+            }
+        }
+        allExplosions.removeAll(exToRemove);
         drawBonuses();
         instance++;
     }
