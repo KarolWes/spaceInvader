@@ -42,6 +42,7 @@ public class Explosion implements Hitting{
     public void resize(){
         if(radius < lim_radius){
             radius+=10;
+            skin.setRadius(radius);
             expired = false;
         }
         else{

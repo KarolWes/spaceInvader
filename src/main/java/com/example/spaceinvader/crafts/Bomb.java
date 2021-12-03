@@ -19,7 +19,7 @@ public class Bomb extends Alien{
         super.getMoves().add(0);
     }
 
-
+    @Override
     public Explosion explode(){
         return new Explosion((int)(this.x + this.skinLoc.getFitWidth()/2), (int)(this.y - this.skinLoc.getFitHeight()/2));
     }
