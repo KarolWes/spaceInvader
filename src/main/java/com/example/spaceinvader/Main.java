@@ -17,12 +17,13 @@ public class Main extends Application {
         scene = new Scene(fxmlLoader.load(), scene_x, scene_y);
         Controller controller = fxmlLoader.getController();
         scene.setOnKeyPressed(controller.handleKeyPressed);
-        scene.setOnKeyReleased(controller.handleKeyRelesed);
-
+        scene.setOnKeyReleased(controller.handleKeyReleased);
         stage.setTitle("Space Invader 2.0");
         stage.setScene(scene);
         stage.show();
-
+    }
+    @Override
+    public void stop(){
     }
 
     public static void main(String[] args) {
