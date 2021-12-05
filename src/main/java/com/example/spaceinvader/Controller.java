@@ -4,6 +4,10 @@ import com.example.spaceinvader.crafts.*;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -12,7 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,12 +36,14 @@ public class Controller {
     private boolean shoot = false;
     private int points = 0;
     private int bonusDuration = 50;
+    private int bonusDropRate = 300;
 
     private Player ship;
     private List<Alien> allAliens;
     private List<Bonus> allBonuses;
     private List<Explosion> allExplosions;
     private List<Integer> bonusTimeout;
+   // private EndDialog endDialogController;
 
     public AnimationTimer timer = new AnimationTimer() {
         @Override
@@ -172,7 +180,7 @@ public class Controller {
 
     }
 
-    public EventHandler<KeyEvent> handleKeyRelesed = new EventHandler<>() {
+    public EventHandler<KeyEvent> handleKeyReleased = new EventHandler<>() {
         @Override
         public void handle(KeyEvent keyEvent) {
             switch (keyEvent.getCode()) {
@@ -370,7 +378,7 @@ public class Controller {
                     points+=1;
                     if (spacecraft.hurt(b.getDamage())) { // alien dies if hit
                         double bonus = Math.random()*1000;
-                        if(bonus <= 300){
+                        if(bonus <= bonusDropRate){
                             allBonuses.add(new Bonus(spacecraft.getX(), spacecraft.getY(), 25));
                         }
                         explode((Alien) spacecraft);
@@ -449,6 +457,7 @@ public class Controller {
         endGameText.setFill(Color.GOLD);
         mainWindow.getChildren().add(endGameText);
         game = false;
+        endGameWindow();
     }
 
     public void timeout(int bonus){
@@ -499,5 +508,25 @@ public class Controller {
         }
     }
 
+    @FXML
+    public void endGameWindow(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(Main.class.getResource("endDialog.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 300, 100);
+            EndDialog endDialogController = fxmlLoader.getController();
+            endDialogController.initData(points);
+            Stage stage = new Stage();
+            stage.setTitle("End of the game");
+            stage.setScene(scene);
+            stage.show();
+
+        }catch (IOException e)
+        {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+    }
 
 }//end of class
