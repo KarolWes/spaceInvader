@@ -48,12 +48,13 @@ public class Controller {
                 generateAliens();
                 for(int i = 0; i < 3; i++){
                     int j = bonusTimeout.get(i);
+                    System.out.println(j + " " + i);
                     if(j > 0){
                         bonusTimeout.set(i,j-1);
                     }
-                    else if (j == 0){
+                    else {
                         timeout(bonusTimeout.indexOf(j));
-                        bonusTimeout.set(i,j-1);
+                        bonusTimeout.set(i, -1);
                     }
                 }
                 frames = 0;
@@ -99,7 +100,7 @@ public class Controller {
     }
 
     public void firstLine(){
-        allAliens.add(new Bomb(100, 100));
+        allAliens.add(new Invader(100, 100));
         allAliens.add(new Invader(200, 100));
         allAliens.add(new Invader(300, 100));
         allAliens.add(new Invader(400, 100));
@@ -119,18 +120,21 @@ public class Controller {
             areUnder = areUnder && (a.getY() >= 250);
         }
         if(allAliens.isEmpty() || areUnder){
-            int quantity = (int)(Math.random()*11)+1;
+            int quantity = (int)(Math.random()*9)+3;
             int spacing = scene_x/(quantity+1);
             for(int i = 0; i < quantity; i++){
                 double type = Math.random()*100;
-                if(type < 60){
+                if(type < 50){
                     allAliens.add(new Invader((i+1)*spacing, 100));
                 }
-                else if(type < 90){
+                else if(type < 75){
                     allAliens.add(new Rider((i+1)*spacing, 100));
                 }
-                else{
+                else if(type < 85){
                     allAliens.add(new Destroyer((i+1)*spacing, 100));
+                }
+                else{
+                    allAliens.add(new Bomb((i+1)*spacing, 100));
                 }
             }
         }
@@ -172,14 +176,9 @@ public class Controller {
         @Override
         public void handle(KeyEvent keyEvent) {
             switch (keyEvent.getCode()) {
-                case A, LEFT:
-                    left = false;
-                    break;
-                case D, RIGHT:
-                    right = false;
-                    break;
-                case W, UP, SPACE:
-                    shoot = false;
+                case A, LEFT -> left = false;
+                case D, RIGHT -> right = false;
+                case W, UP, SPACE -> shoot = false;
             }
         }
     };
@@ -246,7 +245,7 @@ public class Controller {
 
 
     private void bonusMove(){
-        List<Bonus> bonusToRemove = new ArrayList<>();
+        Set<Bonus> bonusToRemove = new HashSet<>();
         for (Bonus bonus: allBonuses){
             bonus.move();
             if (bonus.hit(ship.getSkinLoc(),bonus.getSkin())){
@@ -261,13 +260,21 @@ public class Controller {
         }
         allBonuses.removeAll(bonusToRemove);
     }
-    private boolean alienMove(){
 
+    private void explode(Alien alien){
+        Explosion ex = alien.explode();
+        if(ex != null){//if alien was a bomb
+            allExplosions.add(ex);
+            mainWindow.getChildren().add(ex.getSkin());
+        }
+    }
+
+    private boolean alienMove(){
         Set<Alien> toRemove = new HashSet<>();
         for (Alien a : allAliens) {
             if(a.getY() >= scene_y){ // alien reaches bottom of the window
-                toRemove.add(a);
                 a.die();
+                toRemove.add(a);
 //                System.out.println("GAME OVER");
 //                endGameText.setText("Game over");
 //                endGame();
@@ -279,72 +286,74 @@ public class Controller {
                     endGame();
                     return true;
                 }
-                Explosion ex = a.explode();
-                if(ex != null){//if alien was a bomb
-                    allExplosions.add(ex);
-                    mainWindow.getChildren().add(ex.getSkin());
-                }
+                explode(a);
                 a.die();
                 toRemove.add(a);
-//                if (allAliens.size() == 0) {
-//                    System.out.println("WIN");
-//                    endGameText.setText("Win");
-//                    endGame();
-//                    return;
-//                }
             }
+            Set<Explosion> toAdd = new HashSet<>();
             for(Explosion ex: allExplosions){ // alien hit by explosion
                 if(a.hit(ex.getSkin(), a.getSkinLoc())){
                     if(a.hurt(ex.getDmg())){
+                        Explosion tmp = a.explode();
+                        if(tmp != null){//if alien was a bomb
+                            toAdd.add(tmp);
+                            mainWindow.getChildren().add(tmp.getSkin());
+                        }
                         a.die();
                         toRemove.add(a);
                     }
                 }
             }
+            allExplosions.addAll(toAdd);
             a.move(instance % a.getOrderCount());
             a.getSkinLoc().setX(a.getX());
             a.getSkinLoc().setY(a.getY());
 
-            List<Bullet> toRemove = new ArrayList<>();
-            generateBullet(a.getFired());
-            for (Bullet b : a.getFired()) { // alien shoots
-                b.move();
-                if (b.getY() > scene_y) {
-                    toRemove.add(b);
+            if (alienMoveBullets(a)) return true;
+        }
+        allAliens.removeAll(toRemove);
+        return false;
+    }
+
+    private boolean alienMoveBullets(Alien a) {
+        Set<Bullet> toRemove = new HashSet<>();
+        generateBullet(a.getFired());
+        for (Bullet b : a.getFired()) {
+            if (b.getY() > scene_y) {
+                toRemove.add(b);
+                b.getSkin().setVisible(false);
+            } else {
+                if (b.hit(ship.getSkinLoc(), b.getSkin())) { //bullet hits player
+                    if (ship.hurt(b.getDamage())) {
+                        System.out.println("GAME OVER");
+                        endGameText.setText("Game over");
+                        ship.die();
+                        endGame();
+                        return true;
+                    }
                     b.getSkin().setVisible(false);
-                } else {
-                    if (b.hit(ship.getSkinLoc(), b.getSkin())) {
-                        if (ship.hurt(b.getDamage())) {
-                            System.out.println("GAME OVER");
-                            endGameText.setText("Game over");
-                            ship.die();
-                            endGame();
-                            return true;
-                        }
+                    toRemove.add(b);
+                }
+                for(Explosion ex: allExplosions){
+                    if (b.hit(ex.getSkin(), b.getSkin())){
                         b.getSkin().setVisible(false);
                         toRemove.add(b);
                     }
-                    for(Explosion ex: allExplosions){
-                        if (b.hit(ex.getSkin(), b.getSkin())){
-                            b.getSkin().setVisible(false);
-                            toRemove.add(b);
-                        }
-                    }
-                    List<Bullet> playerToRemove = new ArrayList<>();
-                    for(Bullet playerB: ship.getFired()){ // if two bullets meet
-                        if(b.hit(playerB.getSkin(), b.getSkin())){
-                            b.getSkin().setVisible(false);
-                            toRemove.add(b);
-                            playerB.getSkin().setVisible(false);
-                            playerToRemove.add(playerB);
-                        }
-                    }
-                    ship.getFired().removeAll(playerToRemove);
                 }
+                Set<Bullet> playerToRemove = new HashSet<>();
+                for(Bullet playerB: ship.getFired()){ // if two bullets meet
+                    if(b.hit(playerB.getSkin(), b.getSkin())){
+                        b.getSkin().setVisible(false);
+                        toRemove.add(b);
+                        playerB.getSkin().setVisible(false);
+                        playerToRemove.add(playerB);
+                    }
+                }
+                ship.getFired().removeAll(playerToRemove);
             }
-            a.getFired().removeAll(toRemove);
+            b.move();
         }
-        allAliens.removeAll(toRemove);
+        a.getFired().removeAll(toRemove);
         return false;
     }
 
@@ -356,32 +365,21 @@ public class Controller {
                 toRemove.add(b);
                 b.getSkin().setVisible(false);
             } else {
-                Spacecraft sHit = b.hit(new ArrayList<>(allAliens));
-                if (sHit != null) {
+                Spacecraft spacecraft = b.hit(new ArrayList<>(allAliens));
+                if (spacecraft != null) {
                     points+=1;
-                    if (sHit.hurt(b.getDamage())) { // alien dies if hit
-
+                    if (spacecraft.hurt(b.getDamage())) { // alien dies if hit
                         double bonus = Math.random()*1000;
-                        if(bonus <= 3000){
-                            allBonuses.add(new Bonus(sHit.getX(), sHit.getY(), 25));
+                        if(bonus <= 300){
+                            allBonuses.add(new Bonus(spacecraft.getX(), spacecraft.getY(), 25));
                         }
-                        Explosion ex = sHit.explode();
-                        sHit.die();
-                        if(ex != null){
-                            allExplosions.add(ex);
-                            mainWindow.getChildren().add(ex.getSkin());
-                        }
-                        allAliens.remove(sHit);
+                        explode((Alien) spacecraft);
+                        spacecraft.die();
+                        allAliens.remove(spacecraft);
                         points+=10;
                     }
                     toRemove.add(b);
                     b.getSkin().setVisible(false);
-//                    if (allAliens.size() == 0) {
-//                        System.out.println("WIN");
-//                        endGameText.setText("Win");
-//                        endGame();
-//                        return;
-//                    }
                 }
                 for(Explosion ex: allExplosions){
                     if (b.hit(ex.getSkin(), b.getSkin())){
