@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="endDialogPane" stylesheets="@styles.css"  prefHeight="84.0" prefWidth="268.0" style="-fx-background-image: url(&quot;nebula.jpg&quot;);" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spaceinvader.EndDialog">
-        <GridPane hgap="10" layoutX="11.0" layoutY="8.0" prefHeight="60.0" prefWidth="242.0" vgap="10">
-            <Label prefHeight="17.0" prefWidth="103.0" text="Enter your name: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="nameField" prefHeight="25.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+<Pane fx:id="endDialogPane" prefHeight="84.0" prefWidth="308.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spaceinvader.EndDialog">
+        <GridPane hgap="10" layoutX="11.0" layoutY="8.0" prefHeight="60.0" prefWidth="282.0" vgap="10">
+            <Label prefHeight="20.0" prefWidth="132.0" text="Enter your name: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" prefHeight="25.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
          <Button fx:id="okButton" mnemonicParsing="false" onMouseClicked="#handleOnClicked" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
+            <ColumnConstraints maxWidth="167.0" minWidth="135.0" prefWidth="135.0" />
+            <ColumnConstraints maxWidth="142.0" minWidth="110.0" prefWidth="142.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>
         </GridPane>
+   <padding>
+      <Insets top="10.0" />
+   </padding>
 
 </Pane>

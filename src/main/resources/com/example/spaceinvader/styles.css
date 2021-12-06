@@ -33,3 +33,7 @@
     -fx-font-family: Arial;
     -fx-text-fill: #bfff00;
 }
+#player{
+    -fx-font-weight: Bold;
+    -fx-text-fill: #007fff;
+}

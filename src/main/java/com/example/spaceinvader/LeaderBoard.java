@@ -7,6 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
@@ -24,9 +27,7 @@ public class LeaderBoard {
     @FXML
     GridPane grid;
 
-    public void initialize(){
-
-    }
+    public void initialize(){}
 
     public void createLeaderBoard(){
         Collections.sort(people, Collections.reverseOrder(new Comparator<Person>() {
@@ -39,12 +40,30 @@ public class LeaderBoard {
 
         int playerID = people.indexOf(player);
         if( playerID > 9){
+            for(int i = 1; i<=8 && i < people.size(); i++){
+                List <Label> record = people.get(i-1).getPerson();
+                grid.addRow(i, new Label(String.valueOf(i)));
+                grid.addRow(i, record.get(0));
+                grid.addRow(i, record.get(1));
+            }
+            grid.addRow(9, new Label("..."));
+            List <Label> record = people.get(playerID).getPerson();
+            record.get(0).setId("player");
+            grid.addRow(10, new Label(String.valueOf(playerID+1)));
+            grid.addRow(10, record.get(0));
+            grid.addRow(10, record.get(1));
 
         }
         else{
-            for(int i = 0; i<10 && i < people.size(); i++){
-                List <Label> record = people.get(i).getPerson();
-                grid.addRow(1, record.get(0));
+            for(int i = 1; i<=10 && i < people.size(); i++){
+                List <Label> record = people.get(i-1).getPerson();
+                if(i -1 == playerID){
+                    record.get(0).setId("player");
+                }
+
+                grid.addRow(i, new Label(String.valueOf(i)));
+                grid.addRow(i, record.get(0));
+                grid.addRow(i, record.get(1));
             }
         }
 
