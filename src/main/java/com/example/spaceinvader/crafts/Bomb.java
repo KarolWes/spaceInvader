@@ -8,7 +8,7 @@ import java.io.File;
 public class Bomb extends Alien{
 
     public Bomb(int x, int y) {
-        super(15, 10, 0, x, y, new Image(new File("src/main/resources/com/example/spaceinvader/invader72.png").toURI().toString()));
+        super(15, 10, 0, x, y, new Image(new File("src/main/resources/com/example/spaceinvader/bomb72.png").toURI().toString()));
         generateMoves();
     }
 

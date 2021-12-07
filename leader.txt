@@ -1,7 +1,9 @@
 SpaceMaster;2000
+Karol;1095
 SpaceMaster;1010
 SpaceMaster;1001
 SpaceMaster;1000
+Karol;666
 Karol1;378
 high;237
 IdTest;105
@@ -20,3 +22,4 @@ Karol3;15
 d;13
 test2;2
 testUnder;0
+noobtest;0
