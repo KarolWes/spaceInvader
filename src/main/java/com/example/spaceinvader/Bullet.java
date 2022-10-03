@@ -51,7 +51,7 @@ public class Bullet extends Movable implements Hitting{
         this.x = x;
         this.y = y;
         this.shooter = shooter;
-        this.angle = 0;
+        this.angle = 180*shooter;
         xSize = 3;
         ySize = 20;
         skin = new Rectangle();
