@@ -92,11 +92,11 @@ public class Bullet extends Movable implements Hitting{
 
     public void move()
     {
-        move(180*shooter);
+        move(angle);
     }
 
     public void move(double dir){
-        List<Integer> pos = move((int)(angle), speed, x, y);
+        List<Integer> pos = move((int)(dir), speed, x, y);
         x = pos.get(0);
         y = pos.get(1);
         skin.setX(x);

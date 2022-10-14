@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane fx:id="leaderBoardPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spaceinvader.LeaderBoard">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="14.0" prefHeight="31.0" prefWidth="140.0" text="Leader Board" textAlignment="CENTER" textFill="#bfff00">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="grid" layoutX="24.0" layoutY="20.0" prefHeight="334.0" prefWidth="554.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label  text="Place" />
+            <Label  text="Player" GridPane.columnIndex="1" />
+            <Label  text="Points" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</Pane>

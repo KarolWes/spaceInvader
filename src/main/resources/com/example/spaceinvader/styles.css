@@ -1,8 +1,19 @@
 #mainWindow{
-    -fx-background-image: url("nebula.jpg");
     -fx-background-size: 1200 800;
+    -fx-background-image: url("nebula.jpg");
     -fx-background-position: center center;
 }
+#endDialogPane{
+    -fx-background-size: 300 100;
+    -fx-background-image: url("nebula.jpg");
+    -fx-background-position: center center;
+}
+#leaderBoardPane{
+    -fx-background-size: 600 400;
+    -fx-background-image: url("nebula.jpg");
+    -fx-background-position: center center;
+}
+
 #ship_graph{
     -fx-fill: Green;
     -fx-stroke-width: 3;
@@ -17,7 +28,12 @@
     -fx-stroke-width: 3;
     -fx-stroke: rgb(1, 48, 14);
 }
-
-#ImInvisibleKeyboardListener{
-    visibility: false;
+.label{
+    -fx-font-size: 16;
+    -fx-font-family: Arial;
+    -fx-text-fill: #bfff00;
+}
+#player{
+    -fx-font-weight: Bold;
+    -fx-text-fill: silver;
 }

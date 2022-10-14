@@ -7,7 +7,7 @@ import java.io.File;
 
 public class Destroyer extends Alien{
     public Destroyer(int x, int y) {
-        super(25, 7, (int)(Math.random()*3+2), x, y, new Image(new File("src/main/resources/com/example/spaceinvader/raider72.png").toURI().toString()));
+        super(25, 7, (int)(Math.random()*3+2), x, y, new Image(new File("src/main/resources/com/example/spaceinvader/destroyer72.png").toURI().toString()));
         generateMoves();
     }
 
